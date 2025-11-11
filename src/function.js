@@ -1,6 +1,9 @@
 export function formatDate(date) {
-  console.log(data);
+  const year = date.split("-")[0];
+  const month = Number(date.split("-")[1]);
+  const day = date.split("-")[2];
   const months = [
+    "",
     "Jan",
     "Feb",
     "Mar",
@@ -14,4 +17,5 @@ export function formatDate(date) {
     "Nov",
     "Dec",
   ];
+  return `${day} ${months[month]} ${year}`;
 }

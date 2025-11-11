@@ -10,8 +10,7 @@ function InvoiceCard({ elId, paymentDue, clientName, total, status }) {
         {elId}
       </span>
       <time className="text-[#7e88c3]" dateTime={paymentDue}>
-        Due
-        {/* {formatDate(paymentDue)} */}
+        Due {formatDate(paymentDue)}
       </time>
       <h3 className="text-[#858bb2]">{clientName}</h3>
       <span className="text-[16px] font-bold">{total}</span>
