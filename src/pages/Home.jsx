@@ -1,13 +1,10 @@
 import React from "react";
-import Invoices from "../components/ui/Invoices";
-import StatusBage from "../components/StatusBage";
+import Invoices from "../components/Invoices";
 
 function Home() {
   return (
     <div>
-      Home
       <Invoices />
-      <StatusBage status="pending" />
     </div>
   );
 }

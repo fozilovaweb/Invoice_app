@@ -2,25 +2,25 @@ import React from "react";
 
 function StatusBage({ status = "draft" }) {
   const styles = {
-    draf: {
-      bg: "bg-[rgba(55,59,83,5%)]",
+    draft: {
+      bc: "bg-[rgba(55,59,83,5%)]",
       text: "text-[#373b53]",
       dot: "bg-[#373b53]",
     },
     pending: {
-      bg: "bg-[rgba(255,143,0,5%)]",
+      bc: "bg-[rgba(255,143,0,5%)]",
       text: "text-[#ff8f00]",
       dot: "bg-[#ff8f00]",
     },
     paid: {
-      bg: "bg-[rgba(51,214,159,5%)]",
+      bc: "bg-[rgba(51,214,159,5%)]",
       text: "text-[#33d69f]",
       dot: "bg-[#33d69f]",
     },
   };
   return (
     <span
-      className={`inline-flex  justify-center items-center gap-2 py-3 px-[18px] rounded-md ${styles[status].bg} min-w-[104px]`}
+      className={`inline-flex  justify-center items-center gap-2 py-3 px-[18px] rounded-md ${styles[status].bc} min-w-[104px]`}
     >
       <span
         className={`w-2 h-2 inline-block ${styles[status].dot} rounded-full`}

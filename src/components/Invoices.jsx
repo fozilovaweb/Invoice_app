@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import InvoiceCard from "./InvoiceCard";
 
 function Invoices() {
   const [invoices, setInvoices] = useState([]);
@@ -29,7 +30,22 @@ function Invoices() {
   if (error) {
   }
 
-  return <div>Invoices</div>;
+  return (
+    <div className="flex flex-col gap-4">
+      {invoices.map((inv) => {
+        return (
+          <InvoiceCard
+            clientName={inv.clientName}
+            paymentDue={inv.paymentDue}
+            elId={inv.elId}
+            status={inv.status}
+            total={inv.total}
+            key={inv.id}
+          />
+        );
+      })}
+    </div>
+  );
 }
 
 export default Invoices;
