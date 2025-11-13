@@ -1,22 +1,23 @@
-import React from "react";
-import StatusBage from "./StatusBage";
-import { formatDate } from "../function";
+import { formatDate } from "../functions";
+import StatusBadge from "./StatusBadge";
 
-function InvoiceCard({ elId, paymentDue, clientName, total, status }) {
+export default function InvoiceCard({
+  elId,
+  paymentDue,
+  clientName,
+  total,
+  status,
+}) {
   return (
-    <div className=" flex py-4 px-8 rounded-xl shadow-md justify-between items-center">
+    <div className="py-4 px-8 rounded-xl shadow-md flex justify-between">
       <span className="font-bold text-[12px]">
-        <span className="text-[#7e88c3]">#</span>
+        <span className="text-[#7E88C3]">#</span>
         {elId}
       </span>
-      <time className="text-[#7e88c3]" dateTime={paymentDue}>
-        Due {formatDate(paymentDue)}
-      </time>
-      <h3 className="text-[#858bb2]">{clientName}</h3>
+      <time className="text-[#7E88C3]" dateTime={paymentDue}>Due {formatDate(paymentDue)}</time>
+      <h3 className="text-[#858BB2]">{clientName}</h3>
       <span className="text-[16px] font-bold">{total}</span>
-      <StatusBage status={status} />
+      <StatusBadge status={status} />
     </div>
   );
 }
-
-export default InvoiceCard;

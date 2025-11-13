@@ -1,9 +1,8 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Details from "./pages/Details";
 
-function App() {
+export default function App() {
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -14,8 +13,5 @@ function App() {
       element: <Details />,
     },
   ]);
-
   return <RouterProvider router={routes} />;
 }
-
-export default App;
