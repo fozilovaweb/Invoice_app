@@ -4,20 +4,22 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [invoices, setInvoices] = useState([]);
+  const [originalInvoices, setOriginalInvoices] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("");
   const [filterElement, setFilterElement] = useState([
     {
-      checked: "false",
+      checked: false,
       text: "draft",
     },
     {
-      checked: "false",
+      checked: false,
       text: "pending",
     },
     {
-      checked: "false",
+      checked: false,
       text: "paid",
     },
   ]);
@@ -43,7 +45,7 @@ export default function Home() {
       })
       .then((res) => {
         setInvoices(res.data);
-        console.log(res.data);
+        setOriginalInvoices(res.data);
       })
       .catch(() => {
         setError("Xatolik");
@@ -52,6 +54,23 @@ export default function Home() {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    const activeFilters = filterElement
+      .filter((el) => el.checked)
+      .map((el) => el.text);
+    console.log(activeFilters, "activelae");
+    if (activeFilters.length === 0) {
+      setInvoices(originalInvoices);
+      return;
+    }
+
+    const filtered = originalInvoices.filter((inv) =>
+      activeFilters.includes(inv.status)
+    );
+
+    setInvoices(filtered);
+  }, [filterElement, originalInvoices]);
 
   return (
     <div>

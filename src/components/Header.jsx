@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { useState } from "react";
 import { Checkbox } from "./ui/checkbox";
+import AddElementSheet from "./AddElementSheet";
 
 export default function Header({ total, filterElement, setFilterElement }) {
   const [open, setOpen] = useState(false);
@@ -10,10 +11,11 @@ export default function Header({ total, filterElement, setFilterElement }) {
 
   function handleChecker(element) {
     const findElement = filterElement.find((el) => el.text === element);
+
     findElement.checked = !findElement.checked;
     const result = filterElement.map((el) => {
       if (el.text === element) {
-        return { ...el, checked: !el.checked };
+        return findElement;
       } else {
         return el;
       }
@@ -47,13 +49,14 @@ export default function Header({ total, filterElement, setFilterElement }) {
                       handleChecker(el.text);
                     }}
                   >
-                    <Checkbox checked={el.check} />
+                    <Checkbox checked={el.checked} />
                     <span className="capitalize">{el.text}</span>
                   </span>
                 );
               })}
             </div>
           )}
+          <AddElementSheet />
         </div>
       </div>
     </header>
