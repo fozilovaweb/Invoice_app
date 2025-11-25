@@ -1,14 +1,14 @@
-import Invoices from "../components/Invoices";
-import Header from "../components/Header";
 import { useEffect, useState } from "react";
+import Header from "../components/Header";
+import Invoices from "../components/Invoices";
+import LoadingInvoices from "../components/LoadingInvoices";
 
 export default function Home() {
   const [invoices, setInvoices] = useState([]);
-  const [originalInvoices, setOriginalInvoices] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("");
+
   const [filterElement, setFilterElement] = useState([
     {
       checked: false,
@@ -24,53 +24,42 @@ export default function Home() {
     },
   ]);
 
-  // useEffect(() => {
-  //   const result = filterElement.map((el) => {
-  //     if (el.checked) {
-  //       return `|${el.text}`;
-  //     } else {
-  //       return "";
-  //     }
-  //   });
+  useEffect(() => {
+    const result = filterElement
+      .map((el) => {
+        if (el.checked) {
+          return `|${el.text}`;
+        } else {
+          return "";
+        }
+      })
+      .join("")
+      .slice(1);
 
-  //   setFilter(result.slice(1));
-  //   console.log(result.slice(1));
-  // }, [JSON.stringify(filterElement)]);
+    setFilter(result);
+  }, [JSON.stringify(filterElement)]);
 
   useEffect(() => {
     setLoading(true);
-    fetch("https://json-api.uz/api/project/invoice-app-fn43/invoices")
+    fetch(
+      `https://json-api.uz/api/project/invoice-app-fn43/invoices${
+        filter !== "" ? `?status=${filter}` : filter
+      }`
+    )
       .then((res) => {
         return res.json();
       })
       .then((res) => {
         setInvoices(res.data);
-        setOriginalInvoices(res.data);
+        console.log(res.data);
       })
       .catch(() => {
-        setError("Xatolik");
+        setError("Something went wrong :(");
       })
       .finally(() => {
         setLoading(false);
       });
-  }, []);
-
-  useEffect(() => {
-    const activeFilters = filterElement
-      .filter((el) => el.checked)
-      .map((el) => el.text);
-    console.log(activeFilters, "activelae");
-    if (activeFilters.length === 0) {
-      setInvoices(originalInvoices);
-      return;
-    }
-
-    const filtered = originalInvoices.filter((inv) =>
-      activeFilters.includes(inv.status)
-    );
-
-    setInvoices(filtered);
-  }, [filterElement, originalInvoices]);
+  }, [filter]);
 
   return (
     <div>
@@ -78,6 +67,7 @@ export default function Home() {
         total={invoices.length > 0 ? invoices.length : null}
         filterElement={filterElement}
         setFilterElement={setFilterElement}
+        setInvoices={setInvoices}
       />
       <Invoices invoices={invoices} loading={loading} error={error} />
     </div>

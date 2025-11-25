@@ -1,21 +1,25 @@
 import { ArrowDown, ArrowUp } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import AddElementSheet from "./AddElementSheet";
 
-export default function Header({ total, filterElement, setFilterElement }) {
+export default function Header({
+  total,
+  filterElement,
+  setFilterElement,
+  setInvoices,
+}) {
   const [open, setOpen] = useState(false);
-  function handleClick() {
-    setOpen(!open);
+  const list = useRef();
+  const button = useRef();
+  function handleClick(value) {
+    setOpen(value);
   }
 
   function handleChecker(element) {
-    const findElement = filterElement.find((el) => el.text === element);
-
-    findElement.checked = !findElement.checked;
     const result = filterElement.map((el) => {
       if (el.text === element) {
-        return findElement;
+        return { ...el, checked: !el.checked };
       } else {
         return el;
       }
@@ -23,9 +27,10 @@ export default function Header({ total, filterElement, setFilterElement }) {
 
     setFilterElement(result);
   }
+
   return (
-    <header className="pt-[72px] pb-[65px] ">
-      <div className="mx-auto container px-10 flex justify-between  ">
+    <header className="pt-[72px] pb-[65px]">
+      <div className="mx-auto container px-5 flex justify-between">
         <div>
           <h1 className="font-bold text-4xl mb-3">Invoices</h1>
           {total && (
@@ -34,13 +39,17 @@ export default function Header({ total, filterElement, setFilterElement }) {
         </div>
         <div className="relative">
           <button
-            className="inline-flex items-center gap-1 hover:bg-muted py-2 px-4 rounded-md"
-            onClick={handleClick}
+            ref={button}
+            className="inline-flex items-center gap-1 hover:bg-muted py-2 px-4 rounded-md mr-3"
+            onClick={() => handleClick(!open)}
           >
             Filter by status {open ? <ArrowUp /> : <ArrowDown />}
           </button>
           {open && (
-            <div className="flex flex-col gap-1 absolute p-2 rounded-md shadow min-w-[180px] bg-white top-12">
+            <div
+              ref={list}
+              className="flex flex-col gap-1 absolute p-2 rounded-md shadow min-w-[180px] bg-white top-12 z-10"
+            >
               {filterElement.map((el) => {
                 return (
                   <span
@@ -56,7 +65,7 @@ export default function Header({ total, filterElement, setFilterElement }) {
               })}
             </div>
           )}
-          <AddElementSheet />
+          <AddElementSheet setInvoices={setInvoices} />
         </div>
       </div>
     </header>
